@@ -1,0 +1,49 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOU SNS 승인센터</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f5f7;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#15171b}
+.wrap{max-width:560px;margin:auto;padding-bottom:75px}.test{background:#fff1c7;padding:10px;text-align:center;font-weight:800;font-size:13px}
+header{background:white;padding:15px;border-bottom:1px solid #ddd}h1{font-size:21px;margin:0}.sub{color:#777;font-size:12px;margin:3px 0 12px}
+.roles,.tabs{display:flex;gap:6px}.roles button,.tabs button{flex:1;border:0;border-radius:9px;padding:10px;font-weight:800}
+.roles button.on,.tabs button.on{background:#111827;color:#fff}.roles button:not(.on),.tabs button:not(.on){background:#eef0f3}
+.tabs{padding:9px;background:white;position:sticky;top:0;z-index:5;border-bottom:1px solid #ddd}.tabs button{font-size:11px;padding:8px 2px}
+main{padding:12px}.card{background:#fff;border:1px solid #ddd;border-radius:15px;overflow:hidden;margin-bottom:13px;box-shadow:0 5px 16px #0001}
+.head{padding:11px;display:flex;align-items:center;gap:9px}.av{width:34px;height:34px;border-radius:50%;background:#8d6d55;color:white;display:grid;place-items:center;font-size:11px;font-weight:900}
+.meta{flex:1}.acct{font-size:14px;font-weight:900}.ttl{font-size:11px;color:#777}.ver{font-size:11px;background:#eef3ff;color:#315fc8;padding:5px 8px;border-radius:99px;font-weight:800}
+.pic{aspect-ratio:4/5;position:relative;background:#ccc;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover}.arr{position:absolute;top:50%;transform:translateY(-50%);border:0;border-radius:50%;width:34px;height:34px;background:#0008;color:white;font-size:20px}.l{left:8px}.r{right:8px}.pg{position:absolute;top:8px;right:8px;background:#0009;color:white;border-radius:20px;padding:4px 8px;font-size:11px}
+.body{padding:11px;font-size:13px;line-height:1.55}.cap{white-space:pre-wrap}.hash{color:#385898;margin-top:7px}.row{display:flex;justify-content:space-between;color:#666;margin-top:9px;font-size:12px}
+.actions{display:flex;gap:6px;padding:0 11px 11px}.actions button{flex:1;border:0;border-radius:9px;padding:10px 5px;font-weight:900;font-size:11px}.req{background:#fff3d9;color:#9b6500}.ok{background:#2f6fed;color:#fff}.pub{background:#111827;color:#fff}
+.panel{margin:0 11px 11px;padding:10px;background:#f7f8fa;border:1px solid #ddd;border-radius:10px}.panel textarea{width:100%;min-height:70px;padding:8px}.panel button{margin-top:6px;border:0;border-radius:8px;padding:8px 10px;font-weight:800}
+.log{padding:0 11px 11px;font-size:11px;color:#666}.log div{padding:5px 0;border-top:1px dashed #ddd}.empty{text-align:center;background:#fff;border-radius:13px;padding:35px;color:#777}
+.reset{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);width:min(530px,calc(100% - 20px));padding:11px;border:1px solid #ccc;background:#fff;border-radius:10px;font-weight:900}
+</style>
+<div class="wrap">
+<div class="test">테스트용 시안 — 실제 인스타에 게시되지 않음</div>
+<header><h1>DOU SNS 승인센터</h1><div class="sub">도우패브릭 공식 · 무료 서버 데모</div>
+<div class="roles"><button id="staff" class="on" onclick="role='staff';tab='approval';draw()">담당자(제문이형)</button><button id="owner" onclick="role='owner';tab='approval';draw()">사장님</button></div></header>
+<div class="tabs" id="tabs"></div><main id="main"></main>
+</div><button class="reset" onclick="resetAll()">데모 초기화</button>
+<script>
+const imgs=["https://doufabric.com/web/product/extra/big/202303/1b6547127ef7ad595d8e7caf5a107e12.jpg","https://doufabric.com/web/product/extra/big/202303/82d023ede61a173f509496ccdd0affcc.jpg","https://doufabric.com/web/product/extra/big/202303/7261ab44b7ff610532203b356b354f79.jpg"];
+const seed=[
+{id:1,t:"면100% 60수 아사 122컬러",s:"approval",v:1,i:0,cap:"컬러 고르는 재미가 큰 60수 아사 무지 원단입니다.\n면 100%, 122컬러, 폭 약 147cm이며 1마 단위로 구매할 수 있어요.\n후기 1,000건 이상이며 샘플북도 판매 중입니다.",hash:"#도우패브릭 #60수아사 #면원단 #무지원단 #원단 #패브릭 #핸드메이드 #소잉 #미싱 #옷만들기 #원단쇼핑몰 #122컬러 #순면원단 #아사원단 #핸드메이드원단",time:"10/16 20:00",log:["10/16 09:40 제문이형 v1 등록"]},
+{id:2,t:"샘플북 안내",s:"approval",v:1,i:0,cap:"컬러 선택이 고민될 때는 샘플북으로 먼저 확인해보세요.\n도우패브릭은 샘플북을 판매하고 있습니다.",hash:"#도우패브릭 #샘플북 #원단샘플",time:"10/17 20:00",log:["10/16 09:45 제문이형 v1 등록"]},
+{id:3,t:"롤 단위·대량구매·사업자 문의",s:"approval",v:1,i:0,cap:"롤 단위·대량구매 및 사업자 문의가 가능합니다.\n도우패브릭은 오프라인 도매 매장과 온라인 쇼핑몰을 운영합니다.",hash:"#도우패브릭 #원단도매 #대량구매 #사업자문의",time:"10/18 20:00",log:["10/16 09:50 제문이형 v1 등록"]}
+];let data=JSON.parse(JSON.stringify(seed)),role="staff",tab="approval";
+const names={approval:"승인 대기",revision:"수정 중",scheduled:"예약됨",published:"게시 완료"};
+function draw(){staff.className=role=="staff"?"on":"";owner.className=role=="owner"?"on":"";let c={approval:0,revision:0,scheduled:0,published:0};data.forEach(x=>c[x.s]++);
+tabs.innerHTML=Object.keys(names).map(k=>`<button class="${tab==k?"on":""}" ${role=="owner"&&k!="approval"?"disabled":""} onclick="if(role=='staff'||'${k}'=='approval'){tab='${k}';draw()}">${names[k]} ${c[k]}</button>`).join("");
+let a=data.filter(x=>x.s==tab);main.innerHTML=a.length?a.map(card).join(""):'<div class="empty">현재 게시물이 없습니다.</div>'}
+function card(p){let im=p.id==1?`<img src="${imgs[p.i]}">`:`<div style="height:100%;display:grid;place-items:center;background:${p.id==2?"#d9ccb9":"#988477"};color:white;font-weight:900">예시 이미지</div>`;
+let act=role=="owner"&&p.s=="approval"?`<div class="actions"><button class="req" onclick="rev(${p.id})">수정 요청</button><button class="ok" onclick="setS(${p.id},'scheduled','사장님 승인·예약')">승인·예약</button><button class="pub" onclick="confirmPub(${p.id})">지금 게시</button></div>`:role=="staff"&&p.s=="revision"?`<div class="actions"><button class="pub" onclick="v2(${p.id})">수정본(v${p.v+1}) 올리기</button></div>`:"";
+return `<div class="card"><div class="head"><div class="av">DOU</div><div class="meta"><div class="acct">도우패브릭 공식</div><div class="ttl">${p.t}</div></div><div class="ver">v${p.v}</div></div>
+<div class="pic">${im}${p.id==1?`<button class="arr l" onclick="slide(${p.id},-1)">‹</button><button class="arr r" onclick="slide(${p.id},1)">›</button><div class="pg">${p.i+1}/3</div>`:""}</div>
+<div class="body"><div class="cap">${p.cap}</div><div class="hash">${p.hash}</div><div class="row"><span>게시 예정</span><b>${p.time}</b></div></div>${act}<div id="p${p.id}"></div><div class="log">${p.log.slice().reverse().map(x=>`<div>${x}</div>`).join("")}</div></div>`}
+function slide(id,d){let p=data.find(x=>x.id==id);p.i=(p.i+d+3)%3;draw()}
+function rev(id){document.getElementById("p"+id).innerHTML=`<div class="panel"><b>수정 요청 의견</b><textarea id="r${id}" placeholder="수정 의견 필수"></textarea><button onclick="sendRev(${id})">수정 요청 보내기</button></div>`}
+function sendRev(id){let t=document.getElementById("r"+id).value.trim();if(!t)return;let p=data.find(x=>x.id==id);p.s="revision";p.log.push("10/16 10:05 사장님 수정 요청: "+t);draw()}
+function v2(id){let p=data.find(x=>x.id==id);p.v++;p.s="approval";p.cap+="\n[수정본 v"+p.v+"]";p.log.push("10/16 10:20 제문이형 v"+p.v+" 등록");tab="approval";draw()}
+function setS(id,s,m){let p=data.find(x=>x.id==id);p.s=s;p.log.push("10/16 10:25 "+m);draw()}
+function confirmPub(id){document.getElementById("p"+id).innerHTML=`<div class="panel"><b>공식 계정에 바로 게시됩니다.</b><br><small>데모에서는 실제 게시되지 않습니다.</small><br><button onclick="setS(${id},'published','사장님 지금 게시 승인')">지금 게시 확정</button></div>`}
+function resetAll(){data=JSON.parse(JSON.stringify(seed));role="staff";tab="approval";draw()}draw();
+</script></html>
