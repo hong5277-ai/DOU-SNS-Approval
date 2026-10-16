@@ -20,7 +20,7 @@ main{padding:12px}.card{background:#fff;border:1px solid #ddd;border-radius:15px
 <div class="wrap">
 <div class="test">테스트용 시안 — 실제 인스타에 게시되지 않음</div>
 <header><h1>DOU SNS 승인센터</h1><div class="sub">도우패브릭 공식 · 무료 서버 데모</div>
-<div class="roles"><button id="staff" class="on" onclick="role='staff';tab='approval';draw()">담당자(제문이형)</button><button id="owner" onclick="role='owner';tab='approval';draw()">사장님</button></div></header>
+<div class="roles"><button id="staff" class="on" onclick="who='staff';tab='approval';draw()">담당자(제문이형)</button><button id="owner" onclick="who='owner';tab='approval';draw()">사장님</button></div></header>
 <div class="tabs" id="tabs"></div><main id="main"></main>
 </div><button class="reset" onclick="resetAll()">데모 초기화</button>
 <script>
@@ -29,13 +29,13 @@ const seed=[
 {id:1,t:"면100% 60수 아사 122컬러",s:"approval",v:1,i:0,cap:"컬러 고르는 재미가 큰 60수 아사 무지 원단입니다.\n면 100%, 122컬러, 폭 약 147cm이며 1마 단위로 구매할 수 있어요.\n후기 1,000건 이상이며 샘플북도 판매 중입니다.",hash:"#도우패브릭 #60수아사 #면원단 #무지원단 #원단 #패브릭 #핸드메이드 #소잉 #미싱 #옷만들기 #원단쇼핑몰 #122컬러 #순면원단 #아사원단 #핸드메이드원단",time:"10/16 20:00",log:["10/16 09:40 제문이형 v1 등록"]},
 {id:2,t:"샘플북 안내",s:"approval",v:1,i:0,cap:"컬러 선택이 고민될 때는 샘플북으로 먼저 확인해보세요.\n도우패브릭은 샘플북을 판매하고 있습니다.",hash:"#도우패브릭 #샘플북 #원단샘플",time:"10/17 20:00",log:["10/16 09:45 제문이형 v1 등록"]},
 {id:3,t:"롤 단위·대량구매·사업자 문의",s:"approval",v:1,i:0,cap:"롤 단위·대량구매 및 사업자 문의가 가능합니다.\n도우패브릭은 오프라인 도매 매장과 온라인 쇼핑몰을 운영합니다.",hash:"#도우패브릭 #원단도매 #대량구매 #사업자문의",time:"10/18 20:00",log:["10/16 09:50 제문이형 v1 등록"]}
-];let data=JSON.parse(JSON.stringify(seed)),role="staff",tab="approval";
+];let data=JSON.parse(JSON.stringify(seed)),who="staff",tab="approval";
 const names={approval:"승인 대기",revision:"수정 중",scheduled:"예약됨",published:"게시 완료"};
-function draw(){staff.className=role=="staff"?"on":"";owner.className=role=="owner"?"on":"";let c={approval:0,revision:0,scheduled:0,published:0};data.forEach(x=>c[x.s]++);
-tabs.innerHTML=Object.keys(names).map(k=>`<button class="${tab==k?"on":""}" ${role=="owner"&&k!="approval"?"disabled":""} onclick="if(role=='staff'||'${k}'=='approval'){tab='${k}';draw()}">${names[k]} ${c[k]}</button>`).join("");
+function draw(){staff.className=who=="staff"?"on":"";owner.className=who=="owner"?"on":"";let c={approval:0,revision:0,scheduled:0,published:0};data.forEach(x=>c[x.s]++);
+tabs.innerHTML=Object.keys(names).map(k=>`<button class="${tab==k?"on":""}" ${who=="owner"&&k!="approval"?"disabled":""} onclick="if(who=='staff'||'${k}'=='approval'){tab='${k}';draw()}">${names[k]} ${c[k]}</button>`).join("");
 let a=data.filter(x=>x.s==tab);main.innerHTML=a.length?a.map(card).join(""):'<div class="empty">현재 게시물이 없습니다.</div>'}
 function card(p){let im=p.id==1?`<img src="${imgs[p.i]}">`:`<div style="height:100%;display:grid;place-items:center;background:${p.id==2?"#d9ccb9":"#988477"};color:white;font-weight:900">예시 이미지</div>`;
-let act=role=="owner"&&p.s=="approval"?`<div class="actions"><button class="req" onclick="rev(${p.id})">수정 요청</button><button class="ok" onclick="setS(${p.id},'scheduled','사장님 승인·예약')">승인·예약</button><button class="pub" onclick="confirmPub(${p.id})">지금 게시</button></div>`:role=="staff"&&p.s=="revision"?`<div class="actions"><button class="pub" onclick="v2(${p.id})">수정본(v${p.v+1}) 올리기</button></div>`:"";
+let act=who=="owner"&&p.s=="approval"?`<div class="actions"><button class="req" onclick="rev(${p.id})">수정 요청</button><button class="ok" onclick="setS(${p.id},'scheduled','사장님 승인·예약')">승인·예약</button><button class="pub" onclick="confirmPub(${p.id})">지금 게시</button></div>`:who=="staff"&&p.s=="revision"?`<div class="actions"><button class="pub" onclick="v2(${p.id})">수정본(v${p.v+1}) 올리기</button></div>`:"";
 return `<div class="card"><div class="head"><div class="av">DOU</div><div class="meta"><div class="acct">도우패브릭 공식</div><div class="ttl">${p.t}</div></div><div class="ver">v${p.v}</div></div>
 <div class="pic">${im}${p.id==1?`<button class="arr l" onclick="slide(${p.id},-1)">‹</button><button class="arr r" onclick="slide(${p.id},1)">›</button><div class="pg">${p.i+1}/3</div>`:""}</div>
 <div class="body"><div class="cap">${p.cap}</div><div class="hash">${p.hash}</div><div class="row"><span>게시 예정</span><b>${p.time}</b></div></div>${act}<div id="p${p.id}"></div><div class="log">${p.log.slice().reverse().map(x=>`<div>${x}</div>`).join("")}</div></div>`}
@@ -45,5 +45,5 @@ function sendRev(id){let t=document.getElementById("r"+id).value.trim();if(!t)re
 function v2(id){let p=data.find(x=>x.id==id);p.v++;p.s="approval";p.cap+="\n[수정본 v"+p.v+"]";p.log.push("10/16 10:20 제문이형 v"+p.v+" 등록");tab="approval";draw()}
 function setS(id,s,m){let p=data.find(x=>x.id==id);p.s=s;p.log.push("10/16 10:25 "+m);draw()}
 function confirmPub(id){document.getElementById("p"+id).innerHTML=`<div class="panel"><b>공식 계정에 바로 게시됩니다.</b><br><small>데모에서는 실제 게시되지 않습니다.</small><br><button onclick="setS(${id},'published','사장님 지금 게시 승인')">지금 게시 확정</button></div>`}
-function resetAll(){data=JSON.parse(JSON.stringify(seed));role="staff";tab="approval";draw()}draw();
+function resetAll(){data=JSON.parse(JSON.stringify(seed));who="staff";tab="approval";draw()}draw();
 </script></html>
