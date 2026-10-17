@@ -30,7 +30,8 @@ const imgs3=["cover3.jpg","https://doufabric.com/web/product/medium/202010/4e7b1
 const seed=[
 {id:1,m:imgs,t:"면100% 60수 아사 122컬러",s:"approval",v:1,i:0,cap:"컬러 고르는 재미가 큰 60수 아사 무지 원단입니다.\n면 100%, 122컬러, 폭 약 147cm이며 1마 단위로 구매할 수 있어요.\n후기 1,000건 이상이며 샘플북도 판매 중입니다.",hash:"#도우패브릭 #60수아사 #면원단 #무지원단 #원단 #패브릭 #핸드메이드 #소잉 #미싱 #옷만들기 #원단쇼핑몰 #122컬러 #순면원단 #아사원단 #핸드메이드원단",time:"10/16 20:00",log:["10/16 09:40 담당자 v1 등록"]},
 {id:2,m:imgs2,t:"샘플북 안내",s:"approval",v:1,i:0,cap:"컬러 선택이 고민될 때는 샘플북으로 먼저 확인해보세요.\n도우패브릭은 샘플북을 판매하고 있습니다.",hash:"#도우패브릭 #샘플북 #원단샘플",time:"10/17 20:00",log:["10/16 09:45 담당자 v1 등록"]},
-{id:3,m:imgs3,t:"롤 단위·대량구매·사업자 문의",s:"approval",v:1,i:0,cap:"롤 단위·대량구매 및 사업자 문의가 가능합니다.\n도우패브릭은 오프라인 도매 매장과 온라인 쇼핑몰을 운영합니다.",hash:"#도우패브릭 #원단도매 #대량구매 #사업자문의",time:"10/18 20:00",log:["10/16 09:50 담당자 v1 등록"]}
+{id:3,m:imgs3,t:"롤 단위·대량구매·사업자 문의",s:"approval",v:1,i:0,cap:"롤 단위·대량구매 및 사업자 문의가 가능합니다.\n도우패브릭은 오프라인 도매 매장과 온라인 쇼핑몰을 운영합니다.",hash:"#도우패브릭 #원단도매 #대량구매 #사업자문의",time:"10/18 20:00",log:["10/16 09:50 담당자 v1 등록"]},
+{"id":4,"m":["https://doufabric.com/web/product/big/202103/182c4387dd497e04bfaf6a5d31a61c98.webp"],"t":"하늘하늘 차르륵 쉬폰 무지 (35컬러)","s":"approval","v":1,"i":0,"cap":"창가에도, 옷에도 가볍게 흐르는 쉬폰.\n커튼과 의류용으로 사용하는 폴리 100% 쉬폰 무지 원단입니다.\n고정폭 약 147cm, 길이 약 90cm(1마) 단위로 만나보세요.\n상품명 기준 35컬러이며 일부 색상은 품절될 수 있어요. 주문 전 옵션 재고를 확인해주세요.\n상품 확인: https://doufabric.com/product/detail.html?product_no=835","hash":"#도우패브릭 #DOUFABRIC #쉬폰원단 #쉬폰무지 #커튼원단 #의류원단 #원단쇼핑몰","time":"미정 · 승인 후 결정","log":["2026-10-17 담당자 v1 초안 등록 · 공식 상품835 사양 확인 · 실제 인스타 미게시"]}
 ];let data=JSON.parse(JSON.stringify(seed)),who="owner",tab="approval";
 const names={approval:"승인 대기",revision:"수정 중",scheduled:"예약됨",published:"게시 완료"};
 function draw(){staff.className=who=="staff"?"on":"";owner.className=who=="owner"?"on":"";let c={approval:0,revision:0,scheduled:0,published:0};data.forEach(x=>c[x.s]++);
